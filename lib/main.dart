@@ -45,9 +45,14 @@ class _HomePageState extends State<HomePage> {
 
   //Update control
   int? currentUserId;
+
+  // Variable para guardar la imagen
   var image;
+
   final formKey = GlobalKey<FormState>();
   late var dbHelper;
+
+  // Variable para verificar si estamos actualizando
   late bool isUpdating;
 
 
@@ -77,6 +82,7 @@ class _HomePageState extends State<HomePage> {
     apemaController.text = '';
     emailController.text = '';
     controlNumController.text = '';
+    // Eliminamos los datos que hayan en donde se obtiene la imagen
     photoname = '';
   }
 
@@ -214,7 +220,9 @@ class _HomePageState extends State<HomePage> {
                   )),
                   DataCell(Text(student.name!), onTap: () {
                     setState(() {
+                      // En caso de que se actualice
                       isUpdating = true;
+                      // Obtiene el ID y la Imagen del registro seleccionado
                       currentUserId = student.controlNum;
                       image = student.photoName;
                     });
