@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   //Update control
   int? currentUserId;
+  var image;
   final formKey = GlobalKey<FormState>();
   late var dbHelper;
   late bool isUpdating;
@@ -75,6 +76,7 @@ class _HomePageState extends State<HomePage> {
     apemaController.text = '';
     emailController.text = '';
     controlNumController.text = '';
+    photoname = '';
   }
 
   @override
@@ -138,7 +140,12 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Telefono',
               ),
-              validator: (val) => val!.isEmpty ? 'Tel' : null,
+            validator: (value){
+              if(value!.isEmpty || value.length<10){
+                return "Please enter a correct telefono";
+              }
+              return null;
+            },
               onSaved: (val) => tel = val!,
             ),
             TextFormField(
@@ -147,8 +154,16 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
-              validator: (val) => val!.isEmpty ? 'Enter Email' : null,
-              onSaved: (val) => email = val!,
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(value)) {
+                  return "Por favor, ingresa un correo electrónico válido";
+                }
+                return null;
+              },
+              onSaved: (value) => email = value,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -200,6 +215,7 @@ class _HomePageState extends State<HomePage> {
             setState(() {
               isUpdating = true;
               currentUserId = student.controlNum;
+              image = student.photoName;
             });
             nameController.text = student.name!;
             apepaController.text = student.apepa!;
@@ -241,34 +257,63 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  validate(){
-    if(formKey.currentState!.validate()){
+
+  validate() {
+    if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-      if(isUpdating){
-        Student student = Student(
-            controlNum: currentUserId,
-            name: name,
-            apepa: apepa,
-            apema: apema,
-            email: email,
-            tel: tel,
-            photoName: photoname);
-        dbHelper.update(student);
-        isUpdating = false;
-      } else{
-        Student student = Student(
-            controlNum: null,
-            name: name,
-            apepa: apepa,
-            apema: apema,
-            email: email,
-            tel: tel,
-            photoName: photoname);
-        dbHelper.save(student);
+        if (isUpdating) {
+          if (photoname!.isEmpty) {
+            Student student = Student(
+              controlNum: currentUserId,
+              name: name,
+              apepa: apepa,
+              apema: apema,
+              email: email,
+              tel: tel,
+              photoName: image,
+
+            );
+            dbHelper.update(student);
+            isUpdating = false;
+          } else{
+            Student student = Student(
+              controlNum: currentUserId,
+              name: name,
+              apepa: apepa,
+              apema: apema,
+              email: email,
+              tel: tel,
+              photoName: photoname,
+
+            );
+            dbHelper.update(student);
+            isUpdating = false;
+          }
+        } else {
+          if (photoname == null || photoname!.isEmpty) {
+            // La imagen está vacía, muestra un mensaje de error o toma la acción apropiada.
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Selecciona una imagen.'),
+              ),
+            );
+          } else {
+            Student student = Student(
+              controlNum: null,
+              name: name,
+              apepa: apepa,
+              apema: apema,
+              email: email,
+              tel: tel,
+              photoName: photoname,
+            );
+            dbHelper.save(student);
+          }
+          clearFields();
+          refreshList();
+        }
+
       }
-      clearFields();
-      refreshList();
-    }
   }
 
   @override
