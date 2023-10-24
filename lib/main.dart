@@ -49,6 +49,7 @@ class _HomePageState extends State<HomePage> {
   final formKey = GlobalKey<FormState>();
   late var dbHelper;
   late bool isUpdating;
+  late bool subir;
 
   //Metodos de usuario
   refreshList() {
@@ -140,12 +141,12 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Telefono',
               ),
-            validator: (value){
-              if(value!.isEmpty || value.length<10){
-                return "Please enter a correct telefono";
-              }
-              return null;
-            },
+              validator: (value) {
+                if (value!.isEmpty || value.length < 10) {
+                  return "Please enter a correct telefono";
+                }
+                return null;
+              },
               onSaved: (val) => tel = val!,
             ),
             TextFormField(
@@ -156,8 +157,7 @@ class _HomePageState extends State<HomePage> {
               ),
               validator: (value) {
                 if (value!.isEmpty ||
-                    !RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(value)) {
                   return "Por favor, ingresa un correo electrónico válido";
                 }
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(isUpdating ? "Actualizar" : "Insertar"),
                 ),
                 MaterialButton(
-                  onPressed: (){
+                  onPressed: () {
                     pickImageFromGallery();
                   },
                   shape: RoundedRectangleBorder(
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  SingleChildScrollView userDataTable(List<Student>? Studentss){
+  SingleChildScrollView userDataTable(List<Student>? Studentss) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: DataTable(
@@ -205,116 +205,109 @@ class _HomePageState extends State<HomePage> {
           DataColumn(label: Text('Telefono')),
           DataColumn(label: Text('Delete')),
         ],
-        rows: Studentss!.map((student)=>DataRow(cells: [
-          DataCell(Container(
-            width: 80,
-            height: 120,
-            child: Utility.ImageFromBase64String(student.photoName!),
-          )),
-          DataCell(Text(student.name!), onTap: (){
-            setState(() {
-              isUpdating = true;
-              currentUserId = student.controlNum;
-              image = student.photoName;
-            });
-            nameController.text = student.name!;
-            apepaController.text = student.apepa!;
-            apemaController.text = student.apema!;
-            emailController.text = student.email!;
-            telController.text = student.tel!;
-          }),
-          DataCell(Text(student.apepa!)),
-          DataCell(Text(student.apema!)),
-          DataCell(Text(student.email!)),
-          DataCell(Text(student.tel!)),
-          DataCell(IconButton(
-            onPressed: () {
-              dbHelper.delete(student.controlNum);
-              refreshList();
-            },
-            icon: const Icon(Icons.delete),
-          ))
-        ])).toList(),
+        rows: Studentss!
+            .map((student) => DataRow(cells: [
+                  DataCell(Container(
+                    width: 80,
+                    height: 120,
+                    child: Utility.ImageFromBase64String(student.photoName!),
+                  )),
+                  DataCell(Text(student.name!), onTap: () {
+                    setState(() {
+                      isUpdating = true;
+                      currentUserId = student.controlNum;
+                      image = student.photoName;
+                    });
+                    nameController.text = student.name!;
+                    apepaController.text = student.apepa!;
+                    apemaController.text = student.apema!;
+                    emailController.text = student.email!;
+                    telController.text = student.tel!;
+                  }),
+                  DataCell(Text(student.apepa!)),
+                  DataCell(Text(student.apema!)),
+                  DataCell(Text(student.email!)),
+                  DataCell(Text(student.tel!)),
+                  DataCell(IconButton(
+                    onPressed: () {
+                      dbHelper.delete(student.controlNum);
+                      refreshList();
+                    },
+                    icon: const Icon(Icons.delete),
+                  ))
+                ]))
+            .toList(),
       ),
     );
   }
 
-  Widget list (){
+  Widget list() {
     return Expanded(
         child: SingleChildScrollView(
-          child: FutureBuilder(
-              future: Studentss,
-              builder: (context, AsyncSnapshot<dynamic> snapshot){
-                if(snapshot.hasData){
-                  print(snapshot.data);
-                  return userDataTable(snapshot.data);
-                }
-                if(!snapshot.hasData){
-                  print("Data Not Found");
-                }
-                return const CircularProgressIndicator();
-              }),
-        ));
+      child: FutureBuilder(
+          future: Studentss,
+          builder: (context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              print(snapshot.data);
+              return userDataTable(snapshot.data);
+            }
+            if (!snapshot.hasData) {
+              print("Data Not Found");
+            }
+            return const CircularProgressIndicator();
+          }),
+    ));
   }
-
 
   validate() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-        if (isUpdating) {
-          if (photoname!.isEmpty) {
-            Student student = Student(
-              controlNum: currentUserId,
-              name: name,
-              apepa: apepa,
-              apema: apema,
-              email: email,
-              tel: tel,
-              photoName: image,
+      if (isUpdating) {
+        Student student;
+        // No se verifica si photoname está vacío al actualizar
+        student = Student(
+          controlNum: currentUserId,
+          name: name,
+          apepa: apepa,
+          apema: apema,
+          email: email,
+          tel: tel,
+          photoName: photoname!.isEmpty ? image : photoname,
+        );
+        dbHelper.update(student);
+        isUpdating = false;
+        clearFields();
+        refreshList();
 
-            );
-            dbHelper.update(student);
-            isUpdating = false;
-          } else{
-            Student student = Student(
-              controlNum: currentUserId,
-              name: name,
-              apepa: apepa,
-              apema: apema,
-              email: email,
-              tel: tel,
-              photoName: photoname,
-
-            );
-            dbHelper.update(student);
-            isUpdating = false;
-          }
+      } else {
+        if (photoname!.isEmpty) {
+          // Muestra la alerta si no se ha seleccionado una imagen al crear un nuevo registro
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Selecciona una imagen.'),
+            ),
+          );
+          subir = false;
         } else {
-          if (photoname == null || photoname!.isEmpty) {
-            // La imagen está vacía, muestra un mensaje de error o toma la acción apropiada.
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Selecciona una imagen.'),
-              ),
-            );
-          } else {
-            Student student = Student(
-              controlNum: null,
-              name: name,
-              apepa: apepa,
-              apema: apema,
-              email: email,
-              tel: tel,
-              photoName: photoname,
-            );
-            dbHelper.save(student);
-          }
+          Student student = Student(
+            controlNum: null,
+            name: name,
+            apepa: apepa,
+            apema: apema,
+            email: email,
+            tel: tel,
+            photoName: photoname,
+          );
+
+          dbHelper.save(student);
           clearFields();
           refreshList();
-        }
 
+        }
       }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -327,7 +320,7 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         verticalDirection: VerticalDirection.down,
-        children: [userForm(),list()],
+        children: [userForm(), list()],
       ),
     );
   }
