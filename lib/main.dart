@@ -268,15 +268,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   validate() {
+    // Validar los métodos
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
-
       if (isUpdating) {
+        // Verifica imagen
         if (photoname == null || photoname!.isEmpty) {
           // Conservar la imagen existente si photoname está vacío
           photoname = image;
         }
-
+        // Asigna los valores que se vayan a actualizar
         Student student = Student(
           controlNum: currentUserId,
           name: name,
@@ -286,12 +287,15 @@ class _HomePageState extends State<HomePage> {
           tel: tel,
           photoName: photoname,
         );
-
+        // Actualiza con el método correspondiente
         dbHelper.update(student);
+
         isUpdating = false;
+        // Limpia las entradas de datos y refresca la tabla
         clearFields();
         refreshList();
       } else {
+        // Verifica imagne
         if (photoname == null || photoname!.isEmpty) {
           // Muestra una alerta si no se ha seleccionado una imagen al crear un nuevo registro
           ScaffoldMessenger.of(context).showSnackBar(
@@ -301,6 +305,7 @@ class _HomePageState extends State<HomePage> {
           );
 
         } else {
+          // Asigna los valores correspondientes
           Student student = Student(
             controlNum: null,
             name: name,
@@ -310,8 +315,9 @@ class _HomePageState extends State<HomePage> {
             tel: tel,
             photoName: photoname,
           );
-
+          // Guarda el nuevo registro con el método correspondiente
           dbHelper.save(student);
+          // Limpia las entradas y vuelve a cargas la tabla
           clearFields();
           refreshList();
         }
