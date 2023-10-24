@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
   final formKey = GlobalKey<FormState>();
   late var dbHelper;
   late bool isUpdating;
-  late bool subir;
+
 
   //Metodos de usuario
   refreshList() {
@@ -262,32 +262,36 @@ class _HomePageState extends State<HomePage> {
   validate() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
+
       if (isUpdating) {
-        Student student;
-        // No se verifica si photoname está vacío al actualizar
-        student = Student(
+        if (photoname == null || photoname!.isEmpty) {
+          // Conservar la imagen existente si photoname está vacío
+          photoname = image;
+        }
+
+        Student student = Student(
           controlNum: currentUserId,
           name: name,
           apepa: apepa,
           apema: apema,
           email: email,
           tel: tel,
-          photoName: photoname!.isEmpty ? image : photoname,
+          photoName: photoname,
         );
+
         dbHelper.update(student);
         isUpdating = false;
         clearFields();
         refreshList();
-
       } else {
-        if (photoname!.isEmpty) {
-          // Muestra la alerta si no se ha seleccionado una imagen al crear un nuevo registro
+        if (photoname == null || photoname!.isEmpty) {
+          // Muestra una alerta si no se ha seleccionado una imagen al crear un nuevo registro
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Selecciona una imagen.'),
             ),
           );
-          subir = false;
+
         } else {
           Student student = Student(
             controlNum: null,
@@ -302,7 +306,6 @@ class _HomePageState extends State<HomePage> {
           dbHelper.save(student);
           clearFields();
           refreshList();
-
         }
       }
     }
