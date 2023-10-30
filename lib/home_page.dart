@@ -1,5 +1,5 @@
 import 'dart:typed_data';
-
+import 'image_info.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sqlitedb2/convert_utility.dart';
@@ -202,7 +202,18 @@ class _HomePageState extends State<HomePage> {
             width: 80,
             height: 120,
             child: Utility.ImageFromBase64String(student.photoName!),
-          )),
+          ), onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => imageInfo(
+                  photo:student.photoName,
+                  name:student.name,
+                  apepa:student.apepa,
+              apema: student.apema,
+              email: student.email,
+              tel: student.tel)),
+            );
+          }),
           DataCell(Text(student.name!), onTap: () {
             setState(() {
               // En caso de que se actualice
