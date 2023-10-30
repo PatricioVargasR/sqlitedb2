@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sqlitedb2/convert_utility.dart';
 
-
 class imageInfo extends StatefulWidget {
-  const imageInfo({super.key,
+  const imageInfo({
+    super.key,
     required this.photo,
     required this.name,
     required this.apepa,
@@ -11,6 +11,7 @@ class imageInfo extends StatefulWidget {
     required this.email,
     required this.tel,
   });
+
   final String? photo;
   final String? name;
   final String? apepa;
@@ -23,7 +24,6 @@ class imageInfo extends StatefulWidget {
 }
 
 class _imageInfoState extends State<imageInfo> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,12 +42,12 @@ class _imageInfoState extends State<imageInfo> {
             ),
             const Center(
                 child: Text(
-                  "Página de datos",
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.redAccent),
-                )),
+              "Página de datos",
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.redAccent),
+            )),
             const SizedBox(
               height: 50,
             ),
@@ -56,16 +56,15 @@ class _imageInfoState extends State<imageInfo> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-
-                    Container(
+                  Container(
                     width: 100,
-                      height: 120,
-                      child: Utility.ImageFromBase64String(widget.photo!),
-                    ),
+                    height: 120,
+                    child: Utility.ImageFromBase64String(widget.photo!),
+                  ),
                   const SizedBox(
                     height: 50,
                   ),
-                  Text( "Nombre ${widget.name}",
+                  Text("Nombre ${widget.name}",
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -118,7 +117,6 @@ class _imageInfoState extends State<imageInfo> {
               child: const Text("Back"),
             ),
           ],
-        )
-    );
+        ));
   }
 }

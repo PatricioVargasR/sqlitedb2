@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   // Variable para verificar si estamos actualizando
   late bool isUpdating;
 
-
   //Metodos de usuario
   refreshList() {
     setState(() {
@@ -198,48 +197,51 @@ class _HomePageState extends State<HomePage> {
         ],
         rows: Studentss!
             .map((student) => DataRow(cells: [
-          DataCell(Container(
-            width: 80,
-            height: 120,
-            child: Utility.ImageFromBase64String(student.photoName!),
-          ), onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => imageInfo(
-                  photo:student.photoName,
-                  name:student.name,
-                  apepa:student.apepa,
-              apema: student.apema,
-              email: student.email,
-              tel: student.tel)),
-            );
-          }),
-          DataCell(Text(student.name!), onTap: () {
-            setState(() {
-              // En caso de que se actualice
-              isUpdating = true;
-              // Obtiene el ID y la Imagen del registro seleccionado
-              currentUserId = student.controlNum;
-              image = student.photoName;
-            });
-            nameController.text = student.name!;
-            apepaController.text = student.apepa!;
-            apemaController.text = student.apema!;
-            emailController.text = student.email!;
-            telController.text = student.tel!;
-          }),
-          DataCell(Text(student.apepa!)),
-          DataCell(Text(student.apema!)),
-          DataCell(Text(student.email!)),
-          DataCell(Text(student.tel!)),
-          DataCell(IconButton(
-            onPressed: () {
-              dbHelper.delete(student.controlNum);
-              refreshList();
-            },
-            icon: const Icon(Icons.delete),
-          ))
-        ]))
+                  DataCell(
+                      Container(
+                        width: 80,
+                        height: 120,
+                        child:
+                            Utility.ImageFromBase64String(student.photoName!),
+                      ), onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => imageInfo(
+                              photo: student.photoName,
+                              name: student.name,
+                              apepa: student.apepa,
+                              apema: student.apema,
+                              email: student.email,
+                              tel: student.tel)),
+                    );
+                  }),
+                  DataCell(Text(student.name!), onTap: () {
+                    setState(() {
+                      // En caso de que se actualice
+                      isUpdating = true;
+                      // Obtiene el ID y la Imagen del registro seleccionado
+                      currentUserId = student.controlNum;
+                      image = student.photoName;
+                    });
+                    nameController.text = student.name!;
+                    apepaController.text = student.apepa!;
+                    apemaController.text = student.apema!;
+                    emailController.text = student.email!;
+                    telController.text = student.tel!;
+                  }),
+                  DataCell(Text(student.apepa!)),
+                  DataCell(Text(student.apema!)),
+                  DataCell(Text(student.email!)),
+                  DataCell(Text(student.tel!)),
+                  DataCell(IconButton(
+                    onPressed: () {
+                      dbHelper.delete(student.controlNum);
+                      refreshList();
+                    },
+                    icon: const Icon(Icons.delete),
+                  ))
+                ]))
             .toList(),
       ),
     );
@@ -248,19 +250,19 @@ class _HomePageState extends State<HomePage> {
   Widget list() {
     return Expanded(
         child: SingleChildScrollView(
-          child: FutureBuilder(
-              future: Studentss,
-              builder: (context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasData) {
-                  print(snapshot.data);
-                  return userDataTable(snapshot.data);
-                }
-                if (!snapshot.hasData) {
-                  print("Data Not Found");
-                }
-                return const CircularProgressIndicator();
-              }),
-        ));
+      child: FutureBuilder(
+          future: Studentss,
+          builder: (context, AsyncSnapshot<dynamic> snapshot) {
+            if (snapshot.hasData) {
+              print(snapshot.data);
+              return userDataTable(snapshot.data);
+            }
+            if (!snapshot.hasData) {
+              print("Data Not Found");
+            }
+            return const CircularProgressIndicator();
+          }),
+    ));
   }
 
   validate() {
@@ -299,7 +301,6 @@ class _HomePageState extends State<HomePage> {
               content: Text('Selecciona una imagen.'),
             ),
           );
-
         } else {
           // Asigna los valores correspondientes
           Student student = Student(
@@ -320,7 +321,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
