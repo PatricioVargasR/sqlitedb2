@@ -29,9 +29,9 @@ class _imageInfoState extends State<imageInfo> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Datos personales",
-              style: TextStyle(color: Colors.yellowAccent)),
+              style: TextStyle(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Colors.blue,
         ),
         body: ListView(
           //mainAxisAlignment: MainAxisAlignment.center,
@@ -46,7 +46,7 @@ class _imageInfoState extends State<imageInfo> {
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
-                  color: Colors.redAccent),
+                  color: Colors.blue),
             )),
             const SizedBox(
               height: 50,
@@ -54,67 +54,84 @@ class _imageInfoState extends State<imageInfo> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    width: 100,
-                    height: 120,
+                    width: 170,
+                    height: 170,
                     child: Utility.ImageFromBase64String(widget.photo!),
                   ),
                   const SizedBox(
                     height: 50,
                   ),
-                  Text("Nombre ${widget.name}",
+                  Text("Nombre", // Etiqueta "Nombre"
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 30,
+                          color: Colors.blue)),
+                  const SizedBox(height: 7),
+                  Text(
+                    "${widget.name}",
+                    style: TextStyle(fontSize: 20),
                   ),
-                  Text("Apellidos Paterno: ${widget.apepa}",
+                  Text("Apellido Paterno",
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 30,
+                          color: Colors.blue)),
+                  const SizedBox(height: 7),
+                  Text(
+                    "${widget.apepa}",
+                    style: const TextStyle(fontSize: 20),
                   ),
-                  Text("Apellido Materno: ${widget.apema} ",
+                  Text("Apellido Materno",
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 30,
+                          color: Colors.blue)),
+                  const SizedBox(height: 7),
+                  Text(
+                      "${widget.apema}",
+                      style: const TextStyle(fontSize: 20),
                   ),
-                  Text("Teléfono: ${widget.tel}",
+                  const Text("Teléfono",
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 30,
+                          color: Colors.blue)),
+                  const SizedBox(height: 7),
+                  Text(
+                    "${widget.name}",
+                    style: const TextStyle(fontSize: 20),
                   ),
-                  Text("Email: ${widget.email}",
+                  const Text("Nombre", // Etiqueta "Nombre"
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.redAccent)),
-                  const SizedBox(
-                    height: 30,
+                          color: Colors.blue)),
+                  const SizedBox(height: 7),
+                  Text(
+                    "${widget.name}",
+                    style: const TextStyle(fontSize: 20),
                   ),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 50,
             ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text("Back"),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+              ),
+              child: Text(
+                "Back",
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+              ),
+              ),
             ),
           ],
         ));
