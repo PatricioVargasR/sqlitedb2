@@ -64,18 +64,18 @@ class _imageInfoState extends State<imageInfo> {
                   const SizedBox(
                     height: 50,
                   ),
-                  Text("Nombre", // Etiqueta "Nombre"
-                      style: const TextStyle(
+                  const Text("Nombre", // Etiqueta "Nombre"
+                      style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue)),
                   const SizedBox(height: 7),
                   Text(
                     "${widget.name}",
-                    style: TextStyle(fontSize: 20),
+                    style: const TextStyle(fontSize: 20),
                   ),
-                  Text("Apellido Paterno",
-                      style: const TextStyle(
+                  const Text("Apellido Paterno",
+                      style:  TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue)),
@@ -84,8 +84,8 @@ class _imageInfoState extends State<imageInfo> {
                     "${widget.apepa}",
                     style: const TextStyle(fontSize: 20),
                   ),
-                  Text("Apellido Materno",
-                      style: const TextStyle(
+                  const Text("Apellido Materno",
+                      style:  TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue)),
@@ -95,23 +95,23 @@ class _imageInfoState extends State<imageInfo> {
                       style: const TextStyle(fontSize: 20),
                   ),
                   const Text("Teléfono",
-                      style: const TextStyle(
+                      style:  TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue)),
                   const SizedBox(height: 7),
                   Text(
-                    "${widget.name}",
+                    "${widget.tel}",
                     style: const TextStyle(fontSize: 20),
                   ),
-                  const Text("Nombre", // Etiqueta "Nombre"
-                      style: const TextStyle(
+                  const Text("Email", // Etiqueta "Nombre"
+                      style:  TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue)),
                   const SizedBox(height: 7),
                   Text(
-                    "${widget.name}",
+                    "${widget.email}",
                     style: const TextStyle(fontSize: 20),
                   ),
                 ],
@@ -124,7 +124,7 @@ class _imageInfoState extends State<imageInfo> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
               ),
-              child: Text(
+              child: const Text(
                 "Back",
                 style: TextStyle(
                   color: Colors.blue,
