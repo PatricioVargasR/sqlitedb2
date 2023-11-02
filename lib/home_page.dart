@@ -27,6 +27,11 @@ class _HomePageState extends State<HomePage> {
   String? apepa = '';
   String? apema = '';
   String? photoname = '';
+  String? nameError;
+  String? apepaError;
+  String? apemaError;
+  String? phoneError;
+  String? emailError;
 
 
   //Update control
@@ -90,69 +95,127 @@ class _HomePageState extends State<HomePage> {
           verticalDirection: VerticalDirection.down,
           children: [
             const SizedBox(height: 10),
-            //TextFormField(
-            //controller: controlNumController,
-            //keyboardType: TextInputType.number,
-            //decoration: const InputDecoration(
-            //labelText: 'Control Number',
-            // ),
-            //validator: (val) => val!.isEmpty ? 'Enter Control Number' : null,
-            //onSaved: (val) => controlNumController.text = val!,
-            // ),
             TextFormField(
               controller: nameController,
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Name',
+                errorText: nameError,
               ),
-              validator: (val) => val!.isEmpty ? 'Enter Name' : null,
+              validator: (value){
+                String name = value ?? '';
+                if (name.isEmpty) {
+                  setState(() {
+                    nameError = 'El nombre es obligatorio';
+                  });
+                } else if (!RegExp(r'^[A-Za-z ]+$').hasMatch(name)){
+                  setState(() {
+                    nameError = 'Inserte un nombre valido';
+                  });
+                } else {
+                  setState(() {
+                    nameError = null;
+                  });
+                }
+              },
               onSaved: (val) => name = val!,
             ),
             TextFormField(
               controller: apepaController,
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Apellido Paterno',
+                errorText: apepaError,
               ),
-              validator: (val) => val!.isEmpty ? 'Ape Paterno' : null,
+              validator: (value){
+                String apepa = value ?? '';
+                if (apepa.isEmpty) {
+                  setState(() {
+                    apepaError = 'Introduzca el apellido paterno por favor';
+                  });
+                } else if (!RegExp(r'^[A-Za-z ]+$').hasMatch(apepa)) {
+                  setState(() {
+                    apepaError = 'Inserte un apellido valido';
+                  });
+                } else {
+                  setState(() {
+                    nameError = null;
+                  });
+                }
+                },
               onSaved: (val) => apepa = val!,
             ),
             TextFormField(
               controller: apemaController,
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Apellido Materno',
+                errorText: apemaError,
               ),
-              validator: (val) => val!.isEmpty ? 'Ape Materno' : null,
+              validator: (value){
+                String apema = value ?? '';
+                if (apema.isEmpty) {
+                  setState(() {
+                    apemaError = 'Inserte el apellido materno';
+              });
+              } else if (!RegExp(r'^[A-Za-z ]+$').hasMatch(apema)) {
+                  setState((){
+                    apemaError = 'Inserte un apellido valido';
+              });
+              } else {
+                  setState(() {
+                    apemaError = null;
+              });}
+              },
               onSaved: (val) => apema = val!,
             ),
             TextFormField(
               controller: telController,
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Telefono',
+                errorText: phoneError,
               ),
               validator: (value) {
-                if (value!.isEmpty || value.length < 10) {
-                  return "Please enter a correct telefono";
+                String phone = value ?? '';
+                if (phone.isEmpty) {
+                  setState(() {
+                    phoneError = 'Introduzca su numero';
+                  });
+                } else if (!RegExp(r'^[0-9]{10}$').hasMatch(phone)){
+                  setState((){
+                    phoneError = 'Telefono no valido';
+                });
+                } else {
+                  setState(() {
+                    phoneError = null;
+                  });
                 }
-                return null;
               },
-              onSaved: (val) => tel = val!,
+              onSaved: (value) => tel = value,
             ),
             TextFormField(
               controller: emailController,
               keyboardType: TextInputType.text,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Email',
+                errorText: emailError,
               ),
-              validator: (value) {
-                if (value!.isEmpty ||
-                    !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                  return "Por favor, ingresa un correo electrónico válido";
+              validator: (value){
+                String email = value ?? '';
+                if (email.isEmpty) {
+                  setState(() {
+                    emailError = 'Ingresa tu correo por favor';
+                  });
+                } else if (!RegExp(r'^[\w-]+(\.[\w-]+)*@[\w-]+(\.[\w-]+)+$').hasMatch(email)) {
+                  setState(() {
+                    emailError = 'Correo electronico no valido';
+                  });
+                } else {
+                  setState(() {
+                    emailError = null;
+                  });
                 }
-                return null;
               },
               onSaved: (value) => email = value,
             ),
