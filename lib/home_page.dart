@@ -105,8 +105,15 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Name',
               ),
-              validator: (val) => val!.isEmpty ? 'Enter Name' : null,
-              onSaved: (val) => name = val!,
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r"^[A-Za-z]+$")
+                        .hasMatch(value)) {
+                  return "Ingresa un valor valido";
+                }
+                return null;
+              },
+              onSaved: (value) => name = value,
             ),
             TextFormField(
               controller: apepaController,
@@ -114,8 +121,15 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Apellido Paterno',
               ),
-              validator: (val) => val!.isEmpty ? 'Ape Paterno' : null,
-              onSaved: (val) => apepa = val!,
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r"^[A-Za-z]+$")
+                        .hasMatch(value)) {
+                  return "Ingresa un valor valido";
+                }
+                return null;
+              },
+              onSaved: (value) => apepa = value,
             ),
             TextFormField(
               controller: apemaController,
@@ -123,8 +137,15 @@ class _HomePageState extends State<HomePage> {
               decoration: const InputDecoration(
                 labelText: 'Apellido Materno',
               ),
-              validator: (val) => val!.isEmpty ? 'Ape Materno' : null,
-              onSaved: (val) => apema = val!,
+              validator: (value) {
+                if (value!.isEmpty ||
+                    !RegExp(r"^[A-Za-z]+$")
+                        .hasMatch(value)) {
+                  return "Ingresa un valor valido";
+                }
+                return null;
+              },
+              onSaved: (value) => apema = value,
             ),
             TextFormField(
               controller: telController,
@@ -133,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 labelText: 'Telefono',
               ),
               validator: (value) {
-                if (value!.isEmpty || value.length < 10) {
+                if (value!.isEmpty || value.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
                   return "Please enter a correct telefono";
                 }
                 return null;
