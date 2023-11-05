@@ -49,7 +49,7 @@ class _imageInfoState extends State<imageInfo> {
                   color: Colors.blue),
             )),
             const SizedBox(
-              height: 50,
+              height: 20,
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -62,7 +62,7 @@ class _imageInfoState extends State<imageInfo> {
                     child: Utility.ImageFromBase64String(widget.photo!),
                   ),
                   const SizedBox(
-                    height: 50,
+                    height: 15,
                   ),
                   const Text("Nombre", // Etiqueta "Nombre"
                       style: TextStyle(
