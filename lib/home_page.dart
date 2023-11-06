@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                 labelText: 'Telefono',
               ),
               validator: (value) {
-                if (value!.isEmpty || value.length < 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                if (value!.isEmpty || value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
                   return "Please enter a correct telefono";
                 }
                 return null;
