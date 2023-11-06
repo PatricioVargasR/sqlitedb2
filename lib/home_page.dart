@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
               ),
               validator: (value) {
                 if (value!.isEmpty ||
-                    !RegExp(r"^[A-Za-z]+$")
+                    !RegExp(r"^[A-Za-z ]+$")
                         .hasMatch(value)) {
                   return "Ingresa un valor valido";
                 }
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
               ),
               validator: (value) {
                 if (value!.isEmpty ||
-                    !RegExp(r"^[A-Za-z]+$")
+                    !RegExp(r"^[A-Za-z ]+$")
                         .hasMatch(value)) {
                   return "Ingresa un valor valido";
                 }
@@ -353,10 +353,10 @@ class _HomePageState extends State<HomePage> {
         title: const Text('SQLite DB'),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        verticalDirection: VerticalDirection.down,
+      body: ListView(
+        //mainAxisAlignment: MainAxisAlignment.center,
+        //mainAxisSize: MainAxisSize.min,
+        //verticalDirection: VerticalDirection.down,
         children: [userForm(), list()],
       ),
     );
